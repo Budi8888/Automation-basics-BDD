@@ -1,0 +1,35 @@
+#Gherkin scenarios
+Feature: Testing FTB REST API AIRCRAFTS resource
+  Clients should be able to READ/CREATE/UPDATE/DELETE an aircraft record.
+
+  Scenario: Get specific aircraft data by its ID
+    Given FTB is up and running and the tests are configured
+    When client gets details of Aircraft id=1010
+    Then aircraft data to be manufacturer='Boeing' and model='777-8' and number of seats=100
+
+  Scenario: Create an aircraft with number of seats null
+    Given FTB is up and running and the tests are configured
+    When client tries to create an Aircraft having manufacturer='Boeing' and model='777-8'
+    Then aircraft data to be manufacturer='Boeing' and model='777-8'
+
+  Scenario: Check if number of seats value of Aircraft is null by its ID
+    Given FTB is up and running and the tests are configured
+    When client gets details of Aircraft id=1010
+    Then aircraft number of seats is null
+
+  Scenario Outline:  POST-GET:: Create an aircraft and check that is was created
+    Given FTB is up and running and the tests are configured
+    When client tries to create an Aircraft having manufacturer='<manufacturer>' and model='<model>' and number of seats=<number of seats>
+    Then aircraft data to be manufacturer='<manufacturer>' and model='<model>' and number of seats=<number of seats>
+
+    Examples:
+      |manufacturer |model |number of seats|
+      |Boeing       |777-8 |100            |
+      |Airbus       |321   |250            |
+      |Imagine a vibrant, flowing summer dress in soft pastel hues, perfect for a beach day. The lightweight fabric dances in the gentle breeze, while the delicate floral patterns evoke a sense of joy. Paired with comfy sandals, it’s the ideal outfit for basking.             |123   |150 |
+      |Imagine a vibrant, flowing summer dress in soft pastel hues, perfect for a beach day. The lightweight fabric dances in the gentle breeze, while the delicate floral patterns evoke a sense of joy. Paired with comfy sandals, it’s the ideal outfit for basking             |123   |150 |
+
+  Scenario: Create an aircraft with number of seats null
+    Given FTB is up and running and the tests are configured
+    When client tries to create an Aircraft having manufacturer='<256 chars>' and model='777-8'
+    Then aircraft data to be manufacturer='<256 chars>' and model='777-8'
